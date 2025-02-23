@@ -1,0 +1,90 @@
+{
+  "globalCache": {
+    "enabled": true,
+    "ttl": 300,
+    "maxEntries": 1000
+  },
+  "routes": {
+    "get_users": {
+      "path": "http://api.example.com/users",
+      "method": "GET",
+      "headers": {
+        "Authorization": "Bearer token123",
+        "Content-Type": "application/json"
+      },
+      "queryParams": {
+        "limit": "10",
+        "offset": "0"
+      },
+      "timeout": 5,
+      "cache": {
+        "enabled": true,
+        "ttl": 600,
+        "maxEntries": 100
+      },
+      "expectedResponse": {
+        "statusCode": 200,
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "users": [
+            {
+              "id": 1,
+              "name": "John Doe",
+              "email": "john@example.com"
+            },
+            {
+              "id": 2,
+              "name": "Jane Smith",
+              "email": "jane@example.com"
+            }
+          ],
+          "total": 2
+        }
+      }
+    },
+    "create_user": {
+      "path": "http://api.example.com/users",
+      "method": "POST",
+      "headers": {
+        "Authorization": "Bearer token123",
+        "Content-Type": "application/json"
+      },
+      "body": {
+        "name": "John Doe",
+        "email": "john@example.com"
+      },
+      "timeout": 5,
+      "cache": {
+        "enabled": false
+      },
+      "expectedResponse": {
+        "statusCode": 201,
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "id": 3,
+          "name": "John Doe",
+          "email": "john@example.com",
+          "created_at": "2024-02-21T12:00:00Z"
+        }
+      }
+    },
+    "error_route": {
+      "path": "http://api.example.com/users/error",
+      "method": "GET",
+      "timeout": 5,
+      "expectedResponse": {
+        "statusCode": 500,
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+          "error": "Internal Server Error"
+        }
+      }
+    }
+  }
+}
